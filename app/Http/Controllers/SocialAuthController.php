@@ -30,7 +30,7 @@ class SocialAuthController extends Controller
 
         // Assign recruiter role if not already assigned
 
-        $user->assignRole('recruiter');
+        $user->assignRole('Recruiter Company');
         event(new Registered($user));
 
         Auth::login($user);
