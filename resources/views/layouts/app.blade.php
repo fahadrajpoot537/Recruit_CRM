@@ -583,6 +583,7 @@
                                     </span>
                                     <span class="nav-link-text">Calendar</span>
                                 </a>
+                                @role('super-admin')
                                 <a class="nav-link" href="{{route('admin.companies.manage')}}">
                                     <span class="nav-icon-wrap">
                                         <span class="svg-icon">
@@ -601,14 +602,15 @@
                                             </svg>
                                         </span>
                                     </span>
-                                    @role('super-admin')
+                                    
 
 
                                     <span class="nav-link-text">Recruiter Companies</span>
 
-                                    @endrole
-
+                                    
                                 </a>
+                                @endrole
+                                @role('super-admin')
                                 <a class="nav-link" href="{{route('roles.index')}}">
                                     <span class="nav-icon-wrap">
                                         <span class="svg-icon">
@@ -627,14 +629,14 @@
                                             </svg>
                                         </span>
                                     </span>
-                                    @role('super-admin')
+                                    
 
 
                                     <span class="nav-link-text">Roles</span>
 
-                                    @endrole
-
+                                    
                                 </a>
+                                @endrole
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="email.html">
