@@ -111,23 +111,20 @@
                                                 <div class="form-group col-lg-6">
                                                     <label class="form-label">Name</label>
                                                     <input class="form-control" name="name"
-                                                        placeholder="Enter your name" value="" type="text">
+                                                        placeholder="Enter Name" value="" type="text">
                                                 </div>
                                                 <div class="form-group col-lg-6">
                                                     <label class="form-label">Email</label>
                                                     <input class="form-control" name="email"
-                                                        placeholder="Enter username" value="" type="email">
+                                                        placeholder="Enter Email" value="" type="email">
                                                 </div>
-                                                <!-- <div class="form-group col-lg-12">
-													<label class="form-label">Email</label>
-													<input class="form-control" placeholder="Enter your email id" value="" type="text">
-												</div> -->
+                                               
                                                 <div class="form-group col-lg-12">
                                                     <label class="form-label">Password</label>
                                                     <div class="input-group password-check">
                                                         <span class="input-affix-wrapper affix-wth-text">
                                                             <input class="form-control" name="password"
-                                                                placeholder="6+ characters" value="" type="password">
+                                                                placeholder="Enter Password" value="" type="password">
                                                             <a href="#"
                                                                 class="input-suffix text-primary text-uppercase fs-8 fw-medium">
                                                                 <span>Show</span>
@@ -141,7 +138,7 @@
                                                     <div class="input-group password-check">
                                                         <span class="input-affix-wrapper affix-wth-text">
                                                             <input class="form-control" name="password_confirmation"
-                                                                placeholder="6+ characters" value="" type="password">
+                                                                placeholder="Re-Type Password" value="" type="password">
                                                             <a href="#"
                                                                 class="input-suffix text-primary text-uppercase fs-8 fw-medium">
                                                                 <span>Show</span>

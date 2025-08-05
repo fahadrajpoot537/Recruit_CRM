@@ -54,4 +54,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function createdCompanies()
+{
+    return $this->belongsToMany(Company::class, 'company_user', 'created_by', 'company_id');
+}
 }

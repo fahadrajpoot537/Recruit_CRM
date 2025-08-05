@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\CompanyController;
 use App\Models\User;
 
 Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('google.login');
@@ -38,6 +39,13 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+   
+    Route::get('/companies/create', [CompanyController::class, 'addcompany'])->name('companies.create');
+    Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store');
+    Route::get('/companies/{company}/edit', [CompanyController::class, 'edit'])->name('companies.edit');
+    Route::put('/companies/{id}', [CompanyController::class, 'update'])->name('companies.update');
+    Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
+    Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
