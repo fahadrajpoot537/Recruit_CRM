@@ -55,7 +55,7 @@ class User extends Authenticatable
         ];
     }
     public function createdCompanies()
-{
-    return $this->belongsToMany(Company::class, 'company_user', 'created_by', 'company_id');
-}
+    {
+        return $this->belongsToMany(Company::class, 'company_user', 'created_by', 'company_id');
+    }
 }

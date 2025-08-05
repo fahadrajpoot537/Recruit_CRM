@@ -9,6 +9,7 @@ use App\Models\User;
 
 Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
 // Route::get('auth/google', function () {
 //     return Socialite::driver('google')->redirect();
 // })->name('google.login');

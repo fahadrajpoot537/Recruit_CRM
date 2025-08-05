@@ -6,8 +6,11 @@
         <div class="col-md-12">
 
             <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-header bg-info text-white">
-                    <h4 class="mb-0"><i class="bi bi-building me-2"></i> {{ $company->name ?? 'Company Details' }}</h4>
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0 text-uppercase text-white">
+                        <i class="bi bi-building me-2"></i>
+                        <b>{{ $company->name ?? 'Company Details' }}</b>
+                    </h4>
                 </div>
 
                 <div class="card-body p-4">
@@ -67,11 +70,11 @@
 
                 <div class="card-footer text-end">
                     @if ($company->creators->contains(Auth::id()))
-                    <a href="{{ route('companies.edit', $company->id) }}" class="btn btn-info me-2">
+                    <a href="{{ route('companies.edit', $company->id) }}" class="btn btn-primary me-2">
                         ✏️ Edit
                     </a>
                     @endif
-                    <a href="{{ route('companies.index') }}" class="btn btn-outline-secondary">← Back to List</a>
+                    <a href="{{ route('companies.index') }}" class="btn btn-outline-primary">← Back to List</a>
 
                 </div>
             </div>

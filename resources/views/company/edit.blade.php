@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="container py-5">
-    <h2>Edit Company</h2>
+    <h4 class="mb-0 text-primary">
+        <i class="bi bi-building me-2"></i> Edit Company
+    </h4>
 
     <form action="{{ url('/companies/' . $company->id) }}" method="POST">
         @csrf
@@ -133,7 +135,7 @@
             </div>
 
             <div class="col-12 text-end">
-                <button type="submit" class="btn btn-info">💾 Save Changes</button>
+                <button type="submit" class="btn btn-primary">💾 Save Changes</button>
             </div>
         </div>
     </form>

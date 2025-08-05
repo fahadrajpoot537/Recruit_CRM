@@ -16,7 +16,7 @@
             <div class="card border-0 shadow-lg rounded-4">
                 <div class="card-header bg-gradient text-white"
                     style="background: linear-gradient(45deg, #007bff, #6610f2);">
-                    <h4 class="mb-0">
+                    <h4 class="mb-0 text-primary">
                         <i class="bi bi-building me-2"></i> Create New Company
                     </h4>
                 </div>
@@ -162,7 +162,7 @@
                         </div>
 
                         <div class="d-grid mt-4">
-                            <button type="submit" class="btn btn-info btn-lg rounded-pill shadow-sm">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm">
                                 <i class="bi bi-plus-circle me-1"></i> Create Company
                             </button>
                         </div>
