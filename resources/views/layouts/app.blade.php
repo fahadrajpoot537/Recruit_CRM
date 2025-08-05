@@ -8,8 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recruit CRM</title>
-    <meta name="description"
-        content="A modern Recruiting CRM for your Business by AdamSon's." />
+    <meta name="description" content="A modern Recruiting CRM for your Business by AdamSon's." />
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
@@ -213,7 +212,7 @@
                                             <div class="media">
                                                 <div class="media-head">
                                                     <div class="avatar avatar-rounded avatar-sm">
-                                                        
+
                                                         <img src="dist/img/avatar2.jpg" alt="user" class="avatar-img">
                                                     </div>
                                                 </div>
@@ -345,23 +344,24 @@
                                     aria-expanded="false">
                                     <div class="avatar avatar-rounded avatar-xs">
                                         @php
-                                            $nameParts = explode(' ', Auth::user()->name);
-                                            $firstInitial = substr($nameParts[0], 0, 1);
-                                            $lastInitial = substr(end($nameParts), 0, 1);
-                                            $initials = strtoupper($firstInitial . $lastInitial);
+                                        $nameParts = explode(' ', Auth::user()->name);
+                                        $firstInitial = substr($nameParts[0], 0, 1);
+                                        $lastInitial = substr(end($nameParts), 0, 1);
+                                        $initials = strtoupper($firstInitial . $lastInitial);
                                         @endphp
-                                        <span class="initial-wrap" style="background-color: lightblue;">{{ $initials }}</span>       
+                                        <span class="initial-wrap"
+                                            style="background-color: lightblue;">{{ $initials }}</span>
                                     </div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <div class="p-2">
                                         <div class="media">
                                             <div class="media-head me-2">
-                                               @php
-                                                    $nameParts = explode(' ', Auth::user()->name);
-                                                    $firstInitial = substr($nameParts[0], 0, 1);
-                                                    $lastInitial = substr(end($nameParts), 0, 1);
-                                                    $initials = strtoupper($firstInitial . $lastInitial);
+                                                @php
+                                                $nameParts = explode(' ', Auth::user()->name);
+                                                $firstInitial = substr($nameParts[0], 0, 1);
+                                                $lastInitial = substr(end($nameParts), 0, 1);
+                                                $initials = strtoupper($firstInitial . $lastInitial);
                                                 @endphp
 
                                                 <div class="avatar avatar-primary avatar-xs avatar-rounded">
@@ -375,13 +375,13 @@
                                                     <a href="#" class="d-block link-dark fw-medium"
                                                         data-bs-toggle="dropdown" data-dropdown-animation
                                                         data-bs-auto-close="inside">{{ Auth::user()->name }}</a>
-                                                    
+
                                                 </div>
                                                 <div class="fs-7">{{ Auth::user()->email }}</div>
                                                 <form method="POST" action="{{ route('logout') }}" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                                     <a href="route('logout" class="d-block fs-8 link-secondary">
-														<u>
+                                                        <u>
                                                             @csrf
                                                             Sign Out
                                                         </u>
@@ -392,8 +392,9 @@
                                     </div>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{route('profile.edit')}}">Profile</a>
-                                    @role('recruiter')
-                                        <a class="dropdown-item" href="{{route('companies.index')}}">Manage Company Details</a>
+                                    @role('Recruiter Company')
+                                    <a class="dropdown-item" href="{{route('companies.index')}}">Manage Company
+                                        Details</a>
                                     @endrole
                                     <a class="dropdown-item" href="#"><span class="me-2">Offers</span><span
                                             class="badge badge-sm badge-soft-pink">2</span></a>
@@ -428,7 +429,8 @@
                 <span>
                     <a class="navbar-brand" href="index.html">
                         <img class="brand-img img-fluid mb-2" src="dist/img/brand-sm.svg" alt="brand" />
-                        <label for="" style="margin-top:2%;margin-left: 5%;font-weight: 999;font-size:25px">Recruit CRM</label>
+                        <label for="" style="margin-top:2%;margin-left: 5%;font-weight: 999;font-size:25px">Recruit
+                            CRM</label>
                         <!-- <img class="brand-img img-fluid" src="dist/img/Jampack.svg" alt="brand" /> -->
                     </a>
                     <button class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle">
@@ -508,6 +510,7 @@
                                 <ul id="dash_chat" class="nav flex-column collapse  nav-children">
                                     <li class="nav-item">
                                         <ul class="nav flex-column">
+
                                             <li class="nav-item">
                                                 <a class="nav-link" href="chats.html"><span
                                                         class="nav-link-text">Chats</span></a>
@@ -579,6 +582,58 @@
                                         </span>
                                     </span>
                                     <span class="nav-link-text">Calendar</span>
+                                </a>
+                                <a class="nav-link" href="{{route('admin.companies.manage')}}">
+                                    <span class="nav-icon-wrap">
+                                        <span class="svg-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-calendar-time" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path
+                                                    d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+                                                <circle cx="18" cy="18" r="4" />
+                                                <path d="M15 3v4" />
+                                                <path d="M7 3v4" />
+                                                <path d="M3 11h16" />
+                                                <path d="M18 16.496v1.504l1 1" />
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    @role('super-admin')
+
+
+                                    <span class="nav-link-text">Recruiter Companies</span>
+
+                                    @endrole
+
+                                </a>
+                                <a class="nav-link" href="{{route('roles.index')}}">
+                                    <span class="nav-icon-wrap">
+                                        <span class="svg-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-calendar-time" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path
+                                                    d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+                                                <circle cx="18" cy="18" r="4" />
+                                                <path d="M15 3v4" />
+                                                <path d="M7 3v4" />
+                                                <path d="M3 11h16" />
+                                                <path d="M18 16.496v1.504l1 1" />
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    @role('super-admin')
+
+
+                                    <span class="nav-link-text">Roles</span>
+
+                                    @endrole
+
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -1296,11 +1351,12 @@
                 <footer class="container-xxl footer">
                     <div class="row">
                         <div class="col-xl-8">
-                            <p class="footer-text"><span class="copy-text">Adamson's © 2023 All rights reserved.</span> <a
-                                    href="#" class="" target="_blank">Privacy Policy</a><span
+                            <p class="footer-text"><span class="copy-text">Adamson's © 2023 All rights reserved.</span>
+                                <a href="#" class="" target="_blank">Privacy Policy</a><span
                                     class="footer-link-sep">|</span><a href="#" class="" target="_blank">T&C</a><span
                                     class="footer-link-sep">|</span><a href="#" class="" target="_blank">System
-                                    Status</a></p>
+                                    Status</a>
+                            </p>
                         </div>
                         <div class="col-xl-4">
                             <a href="#" class="footer-extr-link link-default"><span class="feather-icon"><i
