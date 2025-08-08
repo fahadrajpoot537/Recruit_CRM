@@ -428,7 +428,7 @@
             <div class="menu-header">
                 <span>
                     <a class="navbar-brand" href="index.html">
-                        <img class="brand-img img-fluid mb-2" src="dist/img/brand-sm.svg" alt="brand" />
+                        <img class="brand-img img-fluid mb-2" src="{{asset('dist/img/brand-sm.svg')}}" alt="brand" />
                         <label for="" style="margin-top:2%;margin-left: 5%;font-weight: 999;font-size:25px">Recruit
                             CRM</label>
                         <!-- <img class="brand-img img-fluid" src="dist/img/Jampack.svg" alt="brand" /> -->
@@ -1338,9 +1338,9 @@
                 <span class="feather-icon"><i data-feather="message-circle"></i></span>
             </span>
         </a>
-        <div class="chat-popover shadow-xl">
+        <!-- <div class="chat-popover shadow-xl">
             <p>Try Adomson's Chat for free and connect with your customers now!</p>
-        </div>
+        </div> -->
         <!-- /Chat Popup -->
 
         <!-- Main Content -->

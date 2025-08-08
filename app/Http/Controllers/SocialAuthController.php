@@ -10,11 +10,13 @@ use Spatie\Permission\Models\Role;
 
 class SocialAuthController extends Controller
 {
+    //Google Redirection
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
+    //Handle Google CallBack
     public function handleGoogleCallback()
     {
         $googleUser = Socialite::driver('google')->user();

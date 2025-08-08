@@ -18,6 +18,7 @@
 
                         <div><strong>📞 Contact:</strong> <span class="ms-2">{{ $company->contact ?? 'N/A' }}</span>
                         </div>
+                        <div><strong>✉️ Type:</strong> <span class="ms-2">{{ $company->type ?? 'N/A' }}</span></div>
                         <div><strong>✉️ Email:</strong> <span class="ms-2">{{ $company->email ?? 'N/A' }}</span></div>
 
                         <div><strong>🏷️ Postal Code:</strong> <span

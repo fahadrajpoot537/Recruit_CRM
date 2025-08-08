@@ -19,6 +19,7 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::create(['name' => 'employer']);
         $user = Role::create(['name' => 'recruiter']);
         $candidate = Role::create(['name' => 'candidate']);
+        $recruitercompany = Role::create(['name' => 'Recruiter Company']);
 
         // Create permissions
         $permissions = [
@@ -67,5 +68,13 @@ class RolePermissionSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $normalUser->assignRole('candidate');
+
+        // Create Recruiter Company user
+        $recruitercompany = User::create([
+            'name' => 'Recruiter Company User',
+            'email' => 'recruitercompany@example.com',
+            'password' => bcrypt('password'),
+        ]);
+        $recruitercompany->assignRole('Recruiter Company');
     }
 }
