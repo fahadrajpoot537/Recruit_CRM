@@ -18,6 +18,7 @@
 
                         <div><strong>📞 Contact:</strong> <span class="ms-2">{{ $company->contact ?? 'N/A' }}</span>
                         </div>
+                        <div><strong>✉️ Type:</strong> <span class="ms-2">{{ $company->type ?? 'N/A' }}</span></div>
                         <div><strong>✉️ Email:</strong> <span class="ms-2">{{ $company->email ?? 'N/A' }}</span></div>
 
                         <div><strong>🏷️ Postal Code:</strong> <span
@@ -30,7 +31,7 @@
                         <div><strong>🌍 Country:</strong> <span class="ms-2">{{ $company->country ?? 'N/A' }}</span>
                         </div>
 
-                        <div><strong>👤 Contact Person:</strong> <span
+                        <div><strong>👤 Contract Person:</strong> <span
                                 class="ms-2">{{ $company->contractpname ?? 'N/A' }}</span></div>
                         <div><strong>🏢 Head Office:</strong> <span
                                 class="ms-2">{{ $company->head_office ?? 'N/A' }}</span></div>

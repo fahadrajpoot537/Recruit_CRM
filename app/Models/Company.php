@@ -8,10 +8,10 @@ class Company extends Model
 {
     
     protected $fillable = [
-    'name', 'contact', 'email', 'postal_code', 'address', 'city', 'state', 'country',
-    'contractpname', 'company_description', 'head_office', 'no_of_employes',
-    'no_of_offices', 'industry', 'facebook', 'linkedln', 'instagram', 'twitter',
-];
+            'name', 'contact', 'email', 'postal_code', 'address', 'city', 'state', 'country',
+            'contractpname', 'company_description', 'head_office', 'no_of_employes',
+            'no_of_offices', 'industry', 'facebook', 'linkedln', 'instagram', 'twitter','type',
+        ];
 
     public function creators()
     {

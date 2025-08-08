@@ -36,12 +36,13 @@ class CompanyController extends Controller
             'linkedln' => 'nullable|string',
             'instagram' => 'nullable|string',
             'twitter' => 'nullable|string',
+            'type' => 'required|in:resources,recruiter',
         ]);
 
         $company = Company::create($request->only([
             'name', 'contact', 'email', 'postal_code', 'address', 'city', 'state', 'country',
             'contractpname', 'company_description', 'head_office', 'no_of_employes',
-            'no_of_offices', 'industry', 'facebook', 'linkedln', 'instagram', 'twitter',
+            'no_of_offices', 'industry', 'facebook', 'linkedln', 'instagram', 'twitter', 'type',
         ]));
 
         $company->creators()->attach(Auth::id());
@@ -102,6 +103,7 @@ class CompanyController extends Controller
             'linkedln' => $request->linkedln,
             'instagram' => $request->instagram,
             'twitter' => $request->twitter,
+            'type' => $request->type,
         ]);
 
         return redirect()->route('companies.index')->with('success', 'Company updated successfully!');

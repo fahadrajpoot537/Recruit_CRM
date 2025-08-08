@@ -2,20 +2,20 @@
 
 @section('content')
 <style>
-    .hover-zoom {
+.hover-zoom {
     display: inline-block;
     transition: transform 0.3s ease;
     cursor: pointer;
 }
 
 .hover-zoom:hover {
-    transform: scale(1.1);
+    transform: scale(1.3);
 }
 </style>
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold text-primary">My Companies</h2>
-        @role('recruiter')
+        @role('Recruiter Company')
         <a href="{{ route('companies.create') }}" class="btn btn-outline-primary">
             <i class="bi bi-plus-circle me-1"></i> Add Company
         </a>

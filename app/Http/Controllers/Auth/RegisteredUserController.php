@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
         ]);
 
         // Assign "recruiter" role by default
-        $user->assignRole('recruiter');
+        $user->assignRole('Recruiter Company');
 
         event(new Registered($user));
 

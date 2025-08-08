@@ -10,11 +10,13 @@ use Spatie\Permission\Models\Role;
 
 class SocialAuthController extends Controller
 {
+    //Google Redirection
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
+    //Handle Google CallBack
     public function handleGoogleCallback()
     {
         $googleUser = Socialite::driver('google')->user();
@@ -30,7 +32,7 @@ class SocialAuthController extends Controller
 
         // Assign recruiter role if not already assigned
 
-        $user->assignRole('recruiter');
+        $user->assignRole('Recruiter Company');
         event(new Registered($user));
 
         Auth::login($user);

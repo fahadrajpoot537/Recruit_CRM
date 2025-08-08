@@ -16,6 +16,16 @@
                 <input type="text" name="name" class="form-control" value="{{ old('name', $company->name) }}" required>
             </div>
 
+            <div class="col-md-6">
+                <label for="type" class="form-label">Company Type</label>
+                <select class="form-control shadow-sm" name="type" id="type">
+                    <option value="">-- Select Type --</option>
+                    <option value="resources" {{ $company->type === 'resources' ? 'selected' : '' }}>Resources</option>
+                    <option value="recruiter" {{ $company->type === 'recruiter' ? 'selected' : '' }}>Recruiter</option>
+                </select>
+            </div>
+
+
             <div class="col-md-6 mb-3">
                 <label>Contact</label>
                 <input type="text" name="contact" class="form-control" value="{{ old('contact', $company->contact) }}">
@@ -101,7 +111,6 @@
                     </option>
                     @endforeach
                 </select>
-
 
             </div>
 

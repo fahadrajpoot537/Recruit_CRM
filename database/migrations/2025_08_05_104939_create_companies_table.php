@@ -31,6 +31,7 @@ return new class extends Migration
         $table->string('linkedln')->nullable();
         $table->string('instagram')->nullable();
         $table->string('twitter')->nullable();
+        $table->tinyInteger('status')->default(0);
         $table->timestamps();
     });
     }

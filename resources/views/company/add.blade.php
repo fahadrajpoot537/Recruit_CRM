@@ -32,6 +32,16 @@
                             </div>
 
                             <div class="col-md-6">
+                                <label for="type" class="form-label">Company Type</label>
+                                <select class="form-control shadow-sm" name="type" id="type">
+                                    <option value="">-- Select Type --</option>
+                                    <option value="resources">Resources</option>
+                                    <option value="recruiter">Recruiter</option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-6">
                                 <label for="contact" class="form-label">Contact</label>
                                 <input type="text" class="form-control shadow-sm" name="contact" id="contact">
                             </div>
