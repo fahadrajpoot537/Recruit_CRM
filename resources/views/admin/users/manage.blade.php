@@ -166,78 +166,10 @@
                                 <div class="contact-body contact-detail-body">
                                     <div data-simplebar class="nicescroll-bar">
                                         <div class="row p-3">
-                                            @if($company->companies && $company->companies->count() > 0)
-                                            @foreach($company->companies as $comp)
-                                            <div class="col-md-6 mb-4">
-                                                <div class="card h-100">
-                                                    <div class="card-header">
-                                                        <h4 class="text-primary mb-0">{{ $comp->name }}</h4>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <ul class="cp-info">
-                                                            <li><span>Contact:</span>
-                                                                <span>{{ $comp->contact ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>Email:</span>
-                                                                <span>{{ $comp->email ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>Postal Code:</span>
-                                                                <span>{{ $comp->postal_code ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>Address:</span>
-                                                                <span>{{ $comp->address ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>City:</span>
-                                                                <span>{{ $comp->city ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>State:</span>
-                                                                <span>{{ $comp->state ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>Country:</span>
-                                                                <span>{{ $comp->country ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>Industry:</span>
-                                                                <span>{{ $comp->industry ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>Head Office:</span>
-                                                                <span>{{ $comp->head_office ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>No. of Employees:</span>
-                                                                <span>{{ $comp->no_of_employes ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>No. of Offices:</span>
-                                                                <span>{{ $comp->no_of_offices ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>Facebook:</span>
-                                                                <span>{{ $comp->facebook ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>LinkedIn:</span>
-                                                                <span>{{ $comp->linkedln ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>Instagram:</span>
-                                                                <span>{{ $comp->instagram ?? 'N/A' }}</span>
-                                                            </li>
-                                                            <li><span>Twitter:</span>
-                                                                <span>{{ $comp->twitter ?? 'N/A' }}</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                            <div class="row p-3 company-info-list">
+                                                <p class="text-muted">No company data loaded.</p>
                                             </div>
-                                            @endforeach
-                                            @else
-                                            <div class="col-12">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h4 class="text-primary mb-0">Company Information</h4>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <p class="text-muted">No companies associated with this user.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -295,45 +227,50 @@ $(document).ready(function() {
             url: '/admin/users/' + userId + '/details',
             type: 'GET',
             success: function(response) {
-                // Update status with fresh data
-                var statusText = response.status == 1 ? 'Active' : 'Inactive';
-                $('#info-user-status').text(statusText);
+                    var statusText = response.status == 1 ? 'Active' : 'Inactive';
+                    $('#info-user-status').text(statusText);
 
-                // Update company info if available
-                if (response.companies && response.companies.length > 0) {
-                    let html = '';
-                    response.companies.forEach(function(comp) {
-                        html += `
-            <li><span>Company Name:</span> <span>${comp.name}</span></li>
-            <li><span>Contact:</span> <span>${comp.contact}</span></li>
-            <li><span>Email:</span> <span>${comp.email}</span></li>
-            <li><span>Postal Code:</span> <span>${comp.postal_code}</span></li>
-            <li><span>Address:</span> <span>${comp.address}</span></li>
-            <li><span>City:</span> <span>${comp.city}</span></li>
-            <li><span>State:</span> <span>${comp.state}</span></li>
-            <li><span>Country:</span> <span>${comp.country}</span></li>
-            <li><span>Contract Person Name:</span> <span>${comp.contractpname}</span></li>
-            <li><span>Description:</span> <span>${comp.company_description}</span></li>
-            <li><span>Head Office:</span> <span>${comp.head_office}</span></li>
-            <li><span>No. of Employees:</span> <span>${comp.no_of_employes}</span></li>
-            <li><span>No. of Offices:</span> <span>${comp.no_of_offices}</span></li>
-            <li><span>Industry:</span> <span>${comp.industry}</span></li>
-            <li><span>Facebook:</span> <span>${comp.facebook}</span></li>
-            <li><span>LinkedIn:</span> <span>${comp.linkedln}</span></li>
-            <li><span>Instagram:</span> <span>${comp.instagram}</span></li>
-            <li><span>Twitter:</span> <span>${comp.twitter}</span></li>
-            <div class="separator-full my-2"></div>
-        `;
-                    });
-
-                    $('.company-info-list').html(html);
-                } else {
-                    $('.company-info-list').html(
-                        `<p class="text-muted">No companies associated with this user.</p>`
-                    );
+                    if (response.companies && response.companies.length > 0) {
+                        let html = '';
+                        response.companies.forEach(function(comp) {
+                            html += `
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h4 class="text-primary mb-0">${comp.name}</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="cp-info">
+                                <li><span>Contact:</span> <span>${comp.contact}</span></li>
+                                <li><span>Email:</span> <span>${comp.email}</span></li>
+                                <li><span>Postal Code:</span> <span>${comp.postal_code}</span></li>
+                                <li><span>Address:</span> <span>${comp.address}</span></li>
+                                <li><span>City:</span> <span>${comp.city}</span></li>
+                                <li><span>State:</span> <span>${comp.state}</span></li>
+                                <li><span>Country:</span> <span>${comp.country}</span></li>
+                                <li><span>Industry:</span> <span>${comp.industry}</span></li>
+                                <li><span>Head Office:</span> <span>${comp.head_office}</span></li>
+                                <li><span>No. of Employees:</span> <span>${comp.no_of_employes}</span></li>
+                                <li><span>No. of Offices:</span> <span>${comp.no_of_offices}</span></li>
+                                <li><span>Facebook:</span> <a href="${comp.facebook}" target="_blank">${comp.facebook}</a></li>
+                                <li><span>LinkedIn:</span> <a href="${comp.linkedln}" target="_blank">${comp.linkedln}</a></li>
+                                <li><span>Instagram:</span> <a href="${comp.instagram}" target="_blank">${comp.instagram}</a></li>
+                                <li><span>Twitter:</span> <a href="${comp.twitter}" target="_blank">${comp.twitter}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+                        });
+                        $('.company-info-list').html(html);
+                    } else {
+                        $('.company-info-list').html(
+                            `<p class="text-muted">No companies associated with this user.</p>`
+                        );
+                    }
                 }
 
-            },
+                ,
             error: function(xhr, status, error) {
                 console.error('Error fetching user details:', error);
             }
