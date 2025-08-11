@@ -7,6 +7,8 @@ use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CompanyUserController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\CvUploadController;
 use App\Http\Controllers\ResumeParserController;
 use App\Models\User;
@@ -58,28 +60,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/resumes', [ResumeParserController::class, 'index'])->name('resume.index');
     Route::get('/cv/upload', [CvUploadController::class, 'index'])->name('cv.index');
     Route::post('/cv/upload', [CvUploadController::class, 'store'])->name('cv.store');
-    
+
     // Optional: List all parsed CVs
     Route::get('/cv/list', [CvUploadController::class, 'list'])->name('cv.list');
-    
+
     // Optional: View individual CV
     Route::get('/cv/{id}', [CvUploadController::class, 'show'])->name('cv.show');
-    
+
     // Optional: Edit parsed CV data
     Route::get('/cv/{id}/edit', [CvUploadController::class, 'edit'])->name('cv.edit');
     Route::put('/cv/{id}', [CvUploadController::class, 'update'])->name('cv.update');
-    
+
     // Optional: Delete CV
     Route::delete('/cv/{id}', [CvUploadController::class, 'destroy'])->name('cv.destroy');
-    
+
     // Optional: Bulk operations
     Route::post('/cv/bulk-delete', [CvUploadController::class, 'bulkDelete'])->name('cv.bulk-delete');
     Route::post('/cv/bulk-export', [CvUploadController::class, 'bulkExport'])->name('cv.bulk-export');
-    
+
     // Search and filter routes
     Route::get('/cv/search', [CvUploadController::class, 'search'])->name('cv.search');
     Route::post('/cv/filter', [CvUploadController::class, 'filter'])->name('cv.filter');
-    
+
     Route::get('users/create', [UserController::class, 'create'])->name('admin.users.create');
     Route::post('users', [UserController::class, 'store'])->name('admin.users.store');
     Route::get('/companies/create', [CompanyController::class, 'addcompany'])->name('companies.create');
@@ -91,6 +93,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //companies's users
+    Route::get('/company_users', [CompanyUserController::class, 'index'])->name('companies.users');
+    Route::get('/companies_users/create', [CompanyUserController::class, 'create'])->name('companies.users.create');
+    Route::post('/companies_users', [CompanyUserController::class, 'store'])->name('companies.users.store');
+    Route::get('/companies_users/edit', [CompanyUserController::class, 'edit'])->name('companies.users.edit');
+    Route::put('/companies_users/{id}', [CompanyUserController::class, 'update'])->name('companies.users.update');
+    Route::delete('/companies_users/delete/{id}', [CompanyUserController::class, 'destroy'])->name('companies.users.destroy');
+    Route::put('/companies_users/update-status/{id}', [CompanyUserController::class, 'updateStatus'])->name('companies.users.update.status');
+
+    //jobs controller
+    Route::prefix('jobs')->controller(JobController::class)->group(function () {
+        Route::get('/', 'index')->name('jobs.index');
+        Route::get('/create', 'create')->name('jobs.create');
+    });
 });
 Route::middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get('/admin', function () {
@@ -98,4 +115,4 @@ Route::middleware(['auth', 'role:super-admin'])->group(function () {
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

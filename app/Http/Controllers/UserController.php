@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+  protected $guarded;
     //Manage Users
     public function manage()
     {

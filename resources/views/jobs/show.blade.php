@@ -16,10 +16,9 @@
                     <div class="card-body p-4">
                         <div class="row row-cols-1 row-cols-md-2 gy-4">
 
-                        <div><strong>📞 Contact:</strong> <span class="ms-2">{{ $company->contact ?? 'N/A' }}</span>
-                        </div>
-                        <div><strong>✉️ Type:</strong> <span class="ms-2">{{ $company->type ?? 'N/A' }}</span></div>
-                        <div><strong>✉️ Email:</strong> <span class="ms-2">{{ $company->email ?? 'N/A' }}</span></div>
+                            <div><strong>📞 Contact:</strong> <span class="ms-2">{{ $company->contact ?? 'N/A' }}</span>
+                            </div>
+                            <div><strong>✉️ Email:</strong> <span class="ms-2">{{ $company->email ?? 'N/A' }}</span></div>
 
                             <div><strong>🏷️ Postal Code:</strong> <span
                                     class="ms-2">{{ $company->postal_code ?? 'N/A' }}</span></div>
@@ -227,8 +226,7 @@
                                                                         class="icon"><span class="feather-icon"><i
                                                                                 data-feather="more-vertical"></i></span></span></button>
                                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ route('companies.users.edit', ['id' => $company_user->id]) }}"><span
+                                                                    <a class="dropdown-item" href="{{ route('companies.users.edit', ['id' => $company_user->id]) }}"><span
                                                                             class="feather-icon dropdown-icon"><i
                                                                                 data-feather="edit"></i></span><span>Edit</span></a>
                                                                     <form
