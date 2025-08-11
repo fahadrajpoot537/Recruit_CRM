@@ -13,14 +13,17 @@ class UserController extends Controller
     //Manage Users
     public function manage()
     {
-        $companies = User::role('Recruiter Company')->get(); // Only users with this role
+        $companies = User::role('Recruiter Company')
+            ->with('createdCompanies') // eager load
+            ->get();
+
         return view('admin.users.manage', compact('companies'));
     }
 
     public function details($id)
     {
         $user = User::with('createdCompanies')->findOrFail($id);
-
+        // dd($user);
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,
@@ -48,7 +51,7 @@ class UserController extends Controller
                     'instagram' => $company->instagram ?? 'N/A',
                     'twitter' => $company->twitter ?? 'N/A',
                 ];
-            }),
+            })->values(),
         ]);
 
     }
@@ -88,6 +91,7 @@ class UserController extends Controller
             'name'       => $request->name,
             'email'      => $request->email,
             'password'   => Hash::make($request->password),
+            'status'     => 1,
         ]);
 
         // Assign default role "Recruiter"
