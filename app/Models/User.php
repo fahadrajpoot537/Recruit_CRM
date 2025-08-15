@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Contracts\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -60,10 +61,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Company::class, 'company_user', 'created_by', 'company_id');
     }
 
+    //user role
+
+    //companies
     public function companies()
     {
         return $this->belongsToMany(Company::class, 'company_user', 'created_by', 'company_id');
     }
-
-    
+    //company
+    public function company()
+    {
+        return $this->HasOne(CompanyEmployee::class, 'company_user_id');
+    }
 }
