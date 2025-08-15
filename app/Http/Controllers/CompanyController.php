@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\CompanyEmployee;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
@@ -64,8 +65,8 @@ class CompanyController extends Controller
         if (!$company->creators->contains(Auth::id())) {
             abort(403, 'Unauthorized');
         }
-
-        return view('company.show', compact('company'));
+     $company_users = $company->company_users()->with('user')->get();
+        return view('company.show', compact('company', 'company_users'));
     }
 
     //Edit Company View

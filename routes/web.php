@@ -7,8 +7,12 @@ use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CompanyUserController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\CvUploadController;
 use App\Http\Controllers\ResumeParserController;
+use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 
@@ -38,6 +42,20 @@ Route::get('auth/google/callback', [SocialAuthController::class, 'handleGoogleCa
 
 Route::get('/', function () {
     return view('auth.login');
+});
+
+// CSRF token refresh route
+Route::get('/csrf-token', function () {
+    return response()->json(['token' => csrf_token()]);
+});
+
+// Test route to check session and CSRF
+Route::get('/test-session', function () {
+    return response()->json([
+        'session_id' => session()->getId(),
+        'csrf_token' => csrf_token(),
+        'user_authenticated' => auth()->check()
+    ]);
 });
 
 Route::get('/test-api', function () {
@@ -116,11 +134,41 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //companies's users
+    Route::get('/company_users', [CompanyUserController::class, 'index'])->name('companies.users');
+    Route::get('/companies_users/create', [CompanyUserController::class, 'create'])->name('companies.users.create');
+    Route::post('/companies_users', [CompanyUserController::class, 'store'])->name('companies.users.store');
+    Route::get('/companies_users/edit', [CompanyUserController::class, 'edit'])->name('companies.users.edit');
+    Route::put('/companies_users/{id}', [CompanyUserController::class, 'update'])->name('companies.users.update');
+    Route::delete('/companies_users/delete/{id}', [CompanyUserController::class, 'destroy'])->name('companies.users.destroy');
+    Route::put('/companies_users/update-status/{id}', [CompanyUserController::class, 'updateStatus'])->name('companies.users.update.status');
+
+    //jobs controller
+    Route::prefix('jobs')->controller(JobController::class)->group(function () {
+        Route::get('/', 'index')->name('jobs.index');
+        Route::get('/create', 'create')->name('jobs.create');
+        Route::post('/', 'store')->name('jobs.store');
+        Route::get('/{id}/edit', 'edit')->name('jobs.edit');
+        Route::put('/{id}', 'update')->name('jobs.update');
+        Route::delete('/{id}', 'destroy')->name('jobs.destroy');
+        Route::post('/bulk-delete', 'bulkDestroy')->name('jobs.bulk-destroy');
+    });
+    //cont controller
+    Route::prefix('contact')->controller(ContactController::class)->group(function () {
+        Route::get('/', 'index')->name('contact.index');
+        Route::get('/create', 'create')->name('contact.create');
+        Route::post('/', 'store')->name('contact.store');
+        Route::get('/edit/{id}', 'edit')->name('contact.edit');
+        Route::put('/{id}', 'update')->name('contact.update');
+        Route::delete('/{id}', 'destroy')->name('contact.destroy');
+        Route::get('/get-contacts-by-company', 'getContactsByCompany')->name('contact.getContactsByCompany');
+    });
 });
-// Route::middleware(['auth', 'role:super-admin'])->group(function () {
-//     Route::get('/admin', function () {
-//         return 'Welcome Super Admin!';
-//     });
-// });
+Route::middleware(['auth', 'role:super-admin'])->group(function () {
+    Route::get('/admin', function () {
+        return 'Welcome Super Admin!';
+    });
+});
 
 require __DIR__ . '/auth.php';
