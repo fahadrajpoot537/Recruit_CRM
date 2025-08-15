@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Log;
 
 class CvUploadController extends Controller
 {
-    
+ 
+    //Private property to define field limits
     private $fieldLimits = [
         'candidate_name' => 200,
         'candidate_first_name' => 100,
@@ -33,11 +34,13 @@ class CvUploadController extends Controller
         'total_experience' => 50,
     ];
 
+    //Indexx method to show the CV upload form
     public function index()
     {
         return view('cv.index');
     }
 
+    //Store method to handle CV uploads
     public function store(Request $request)
     {
         $request->validate([
@@ -69,6 +72,7 @@ class CvUploadController extends Controller
         return view('cv.parsed', compact('results', 'errors'));
     }
 
+    //Process a single CV file
     private function processSingleCV($file)
     {
         $path = $file->store('uploads/cvs', 'public');
@@ -134,11 +138,13 @@ class CvUploadController extends Controller
         ];
     }
 
+    //Validate and truncate fields to prevent database errors
     private function generateCandidateRef()
     {
         return 'CV' . date('Ymd') . rand(1000, 9999);
     }
 
+    //Validate and truncate fields to prevent database errors
     private function parseFileEnhanced($file)
     {
         $ext = strtolower($file->getClientOriginalExtension());
@@ -168,6 +174,7 @@ class CvUploadController extends Controller
         }
     }
 
+    //Private method to parse PDF files with fallback to OCR
     private function parsePDF($file)
     {
         try {
@@ -187,6 +194,7 @@ class CvUploadController extends Controller
         }
     }
 
+    //Private method to parse Word files using Phpword
     private function parseWord($file)
     {
         $text = '';
@@ -202,6 +210,7 @@ class CvUploadController extends Controller
         return $text;
     }
 
+    //Private method to extract text from Word elements
     private function extractTextFromElement($element)
     {
         $text = '';
@@ -226,6 +235,7 @@ class CvUploadController extends Controller
         return $text;
     }
 
+    //Private method to parse images using OCR
     private function parseImage($file)
     {
         try {
@@ -250,6 +260,7 @@ class CvUploadController extends Controller
         }
     }
 
+    //Private method to validate and truncate fields
     private function cleanText($text)
     {
         if (empty($text)) {
@@ -265,7 +276,7 @@ class CvUploadController extends Controller
             if ($encoding && $encoding !== 'UTF-8') {
                 $text = mb_convert_encoding($text, 'UTF-8', $encoding);
             } else {
-                $text = utf8_encode($text);
+                $text = mb_convert_encoding($text, 'UTF-8', 'auto');
             }
         }
 
@@ -277,6 +288,7 @@ class CvUploadController extends Controller
         return trim($text);
     }
 
+    //Private method to extract fields with enhanced logic
     private function extractFieldsEnhanced($text)
     {
         $fields = [
@@ -334,6 +346,7 @@ class CvUploadController extends Controller
         return $fields;
     }
 
+    //Private method to extract basic information
     private function extractBasicInfo($fields, $lines, $text, $textLower)
     {
         // Extract Email
@@ -369,6 +382,7 @@ class CvUploadController extends Controller
         return $fields;
     }
 
+    //Private method to extract professional information
     private function extractName($fields, $lines, $text)
     {
         // Method 1: Look for ALL CAPS names (like FAHAD BIN KHALID, LINDSEY OYINLOYE)
@@ -417,6 +431,7 @@ class CvUploadController extends Controller
         return $fields;
     }
 
+    //Private method to extract address information
     private function extractAddress($fields, $text)
     {
         // UK Postcode
@@ -445,6 +460,7 @@ class CvUploadController extends Controller
         return $fields;
     }
 
+    //Private method to extract personal details
     private function extractPersonalDetails($fields, $text, $textLower)
     {
         // Gender
@@ -480,6 +496,7 @@ class CvUploadController extends Controller
         return $fields;
     }
 
+    //Private method to extract sections like skills, experience, education
     private function extractSections($fields, $text, $textLower, $lines)
     {
         // Extract Summary
@@ -497,6 +514,7 @@ class CvUploadController extends Controller
         return $fields;
     }
 
+    //Private method to extract summary with improved logic
     private function extractSummary($text)
     {
         $summaryHeaders = ['summary', 'profile', 'personal statement', 'objective', 'about', 'overview'];
@@ -522,6 +540,7 @@ class CvUploadController extends Controller
         return null;
     }
 
+    //Private method to extract skills with enhanced logic
     private function extractSkills($text, $lines)
     {
         $skills = [];
@@ -575,6 +594,7 @@ class CvUploadController extends Controller
         return array_values(array_slice($skills, 0, 15)); // Limit to 15 skills
     }
 
+    //Private method to parse skills section with flexible parsing
     private function parseSkillsSection($skillsText)
     {
         $skills = [];
@@ -602,6 +622,7 @@ class CvUploadController extends Controller
         return $skills;
     }
 
+    //Private method to extract experience with improved logic
     private function extractExperience($text)
     {
         $experience = [];
@@ -632,6 +653,7 @@ class CvUploadController extends Controller
         return array_slice($experience, 0, 5); 
     }
 
+    //Private method to extract education with improved logic
     private function extractEducation($text)
     {
         $education = [];
@@ -664,6 +686,8 @@ class CvUploadController extends Controller
         return array_slice($education, 0, 5); 
     }
 
+
+    //Private method to extract professional information like total experience and position title
     private function extractProfessionalInfo($fields, $text, $textLower)
     {
         // Total experience
@@ -690,6 +714,7 @@ class CvUploadController extends Controller
         return $fields;
     }
 
+    //Private method to validate and truncate fields to prevent database errors
     private function validateAndTruncateFields($fields)
     {
         foreach ($this->fieldLimits as $field => $limit) {
@@ -715,4 +740,5 @@ class CvUploadController extends Controller
 
         return $fields;
     }
+    
 }

@@ -14,12 +14,13 @@ class UserController extends Controller
     public function manage()
     {
         $companies = User::role('Recruiter Company')
-            ->with('createdCompanies') // eager load
+            ->with('createdCompanies')
             ->get();
 
         return view('admin.users.manage', compact('companies'));
     }
 
+    //Details For User Companies
     public function details($id)
     {
         $user = User::with('createdCompanies')->findOrFail($id);
@@ -55,7 +56,6 @@ class UserController extends Controller
         ]);
 
     }
-
 
     //Update Status From AJAX
     public function updateStatus(Request $request)
@@ -98,5 +98,11 @@ class UserController extends Controller
         $user->assignRole('Recruiter Company');
 
         return redirect()->route('admin.companies.manage')->with('success', 'User created successfully!');
+    }
+
+    //Terms and Conditions View
+    public function term()
+    {
+        return view('term');
     }
 }

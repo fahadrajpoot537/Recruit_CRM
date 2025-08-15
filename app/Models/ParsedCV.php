@@ -55,6 +55,7 @@ class ParsedCv extends Model
         'parsed_fields',
     ];
 
+    //Fields limits to prevent database errors
     protected $casts = [
         'opt_out' => 'boolean',
         'right_to_work' => 'boolean',
