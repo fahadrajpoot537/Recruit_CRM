@@ -12,4 +12,14 @@ class CompanyEmployee extends Model
     {
         return $this->belongsTo(User::class, 'company_user_id');
     }
+        //creator
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+    //company
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

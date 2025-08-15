@@ -4,8 +4,6 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-12">
-
-
                 <div class="blogapp-content">
                     <div class="blogapp-content">
                         <div class="blogapp-detail-wrap">
@@ -15,15 +13,15 @@
                                         <h1>Add Job</h1>
                                     </a>
                                 </div>
-
-
                             </header>
                             <div class="blog-body">
                                 <div data-simplebar class="nicescroll-bar">
                                     <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-xxl-12 col-lg-12">
-                                                <form class="edit-post-form">
+                                                <form class="edit-post-form jobform" action="{{ url('/jobs') }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
                                                     <!-- Job Basic Information -->
                                                     <div class="form-group row">
                                                         <div class="form-group col-lg-6">
@@ -39,18 +37,25 @@
                                                     </div>
 
                                                     <div class="form-group row">
+
                                                         <div class="form-group col-lg-6">
-                                                            <label class="form-label">Company*</label>
-                                                            <select class="form-select" name="company_id" required>
-                                                                <option selected value="1">Public</option>
-                                                                <option value="2">Private</option>
+                                                            <label class="form-label"> Company</label>
+                                                            <select class="form-select" name="company_id">
+                                                                <option selected value="">Select Company</option>
+                                                                @foreach ($companies as $company)
+                                                                    <option value="{{ $company->id }}">{{ $company->name }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="form-group col-lg-6">
                                                             <label class="form-label">Target Company</label>
                                                             <select class="form-select" name="target_company_id">
-                                                                <option selected value="1">Public</option>
-                                                                <option value="2">Private</option>
+                                                                <option selected value="">Select Company</option>
+                                                                @foreach ($target_companies as $company)
+                                                                    <option value="{{ $company->id }}">{{ $company->name }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -63,7 +68,7 @@
                                                                 <div class="tab-content mt-0">
                                                                     <div class="tab-pane fade show active" id="tab_classic">
                                                                         <div class="tinymce-wrap">
-                                                                            <textarea id="classic" name="job_description" required></textarea>
+                                                                            <textarea id="classic" name="job_description"></textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -282,13 +287,7 @@
 
                                                     <!-- Team & Questions -->
                                                     <div class="form-group row">
-                                                        <div class="form-group col-lg-6">
-                                                            <label class="form-label">Select Owner</label>
-                                                            <select class="form-select" name="owner_id">
-                                                                <option selected value="">-- Select --</option>
-                                                                <!-- Options would be populated dynamically -->
-                                                            </select>
-                                                        </div>
+
 
                                                         <div class="form-group col-lg-6">
                                                             <label class="form-label">Collaborator</label>
@@ -296,12 +295,20 @@
                                                             <select id="input_tags"
                                                                 class="form-control select2 select2-multiple"
                                                                 multiple="multiple" data-placeholder="Choose"
-                                                                multiple="multiple" name="collaborator">
-
-                                                                <option>white</option>
-                                                                <option>purple</option>
+                                                                multiple="multiple" name="collaborator[]">
+                                                                <!-- Options would be populated dynamically -->
+                                                                @foreach ($users as $user)
+                                                                    <option value="{{ $user->id }}">{{ $user->name }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
 
+
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label class="form-label">Attchment</label>
+                                                            <input type="file" class="form-control" name="attchment"
+                                                                placeholder="Attchment">
 
                                                         </div>
                                                     </div>
@@ -424,6 +431,23 @@
             $("#input_tags").select2({
                 tags: true,
                 tokenSeparators: [',', ' ']
+
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                tinymce.init({
+                    selector: '#classic',
+                    setup: function(editor) {
+                        editor.on('change', function() {
+                            editor.save(); // keeps textarea updated
+                        });
+                    }
+                });
+
+                document.querySelector('jobform').addEventListener('submit', function() {
+                    tinymce.triggerSave(); // final push to textarea
+                });
             });
         </script>
         <script>

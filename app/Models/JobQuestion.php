@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class JobQuestion extends Model
 {
     //
+    protected $fillable = [
+        'job_id',
+        'question',
+    ];
 }

@@ -28,7 +28,7 @@
 
                                 {{-- <input type="hidden" class="form-control shadow-sm" name="company_id" id="company_id"
                                     value="{{ old('company_id', $company->id }}" > --}}
- {{-- @foreach ($companies as $company)
+                                {{-- @foreach ($companies as $company)
                                         @php
                                         dd($company->name);
                                         @endphp
@@ -36,12 +36,12 @@
                                         @endforeach --}}
                                 <div class="col-md-6 mb-3">
                                     <label>Company</label>
-                                    <select class="form-select shadow-sm @error('company_id') is-invalid @enderror" name="company_id"
-                                        id="company_id">
+                                    <select class="form-select shadow-sm @error('company_id') is-invalid @enderror"
+                                        name="company_id" id="company_id">
                                         @foreach ($companies as $company)
-
-                                        <option value="{{ old('company_id', $company->id) }}" {{ $company_user->company_id == $company->id ? 'selected' : '' }}>
-                                            {{ $company->name }}</option>
+                                            <option value="{{ old('company_id', $company->id) }}"
+                                                {{ $company_user->company_id == $company->id ? 'selected' : '' }}>
+                                                {{ $company->name }}</option>
                                         @endforeach
 
                                     </select>
@@ -73,11 +73,13 @@
                                     <label for="role" class="form-label">Role</label>
                                     <select class="form-select shadow-sm @error('role') is-invalid @enderror" name="role"
                                         id="role">
-                                        <option value="recruiter" {{ $company_user->user->role[0]['name'] == 'recruiter' ? 'selected' : '' }}>
-                                            Recruiter</option>
-                                        <option value="employer" {{ $company_user->user->role[0]['name'] == 'employer' ? 'selected' : '' }}>
-                                            Employer
+                                        <option value="recruiter"
+                                            {{ $company_user->user->hasRole('recruiter') ? 'selected' : '' }}>Recruiter
                                         </option>
+                                        <option value="employer"
+                                            {{ $company_user->user->hasRole('employer') ? 'selected' : '' }}>Employer
+                                        </option>
+
                                     </select>
                                     @error('role')
                                         <div class="invalid-feedback">{{ $message }}</div>

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('job_questions', function (Blueprint $table) {
+        Schema::create('job_contacts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('job_id');
-            $table->foreign('job_id')->references('id')->on('crm_jobs')->onDelete('cascade');
-            $table->text('question');
-            $table->integer('order')->default(0);
+            $table->foreign('job_id')->references('id')->on('crm_jobs');
+            $table->unsignedBigInteger('contact_id');
+            $table->foreign('contact_id')->references('id')->on('contacts');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('job_questions');
+        Schema::dropIfExists('job_contacts');
     }
 };

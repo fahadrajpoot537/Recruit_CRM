@@ -62,16 +62,15 @@ class User extends Authenticatable
     }
 
     //user role
-  public function role()
-{
-    return $this->roles()->limit(1);
-}
 
-//companies
-public function companies()
-{
-    return $this->belongsToMany(Company::class, 'company_user', 'created_by', 'company_id');
-}
-
-
+    //companies
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'company_user', 'created_by', 'company_id');
+    }
+    //company
+    public function company()
+    {
+        return $this->HasOne(CompanyEmployee::class, 'company_user_id');
+    }
 }

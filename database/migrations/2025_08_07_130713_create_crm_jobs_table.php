@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
+        Schema::create('crm_jobs', function (Blueprint $table) {
             $table->id();
 
             // Basic Job Information
@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('job_description');
             $table->string('location_type'); // Onsite, Remote, Hybrid
             $table->string('job_type');
+            $table->string('job_category')->nullable();
 
             // Experience Requirements
             $table->integer('min_experience')->default(0); // Years
@@ -41,9 +42,9 @@ return new class extends Migration
 
             // Location Information
             $table->string('locality')->nullable();
-            $table->string('city');
-            $table->string('state');
-            $table->string('country');
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
             $table->string('postal_code')->nullable();
             $table->text('full_address')->nullable();
 
@@ -52,18 +53,18 @@ return new class extends Migration
             $table->foreignId('collaborator_id')->nullable()->constrained('users');
             $table->text('note_for_candidates')->nullable();
 
-            // Application Questions (stored as JSON)
-            $table->json('application_questions')->nullable();
+            $table->text('attachments')->nullable();
 
             // Status & Timestamps
-            $table->boolean('is_active')->default(true);
+            $table->string('status')->default('Open');
             $table->timestamp('published_at')->nullable();
+            $table->foreignId('created_by')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
 
         // Pivot table for job questions (alternative to JSON column)
-      
+
     }
 
     /**

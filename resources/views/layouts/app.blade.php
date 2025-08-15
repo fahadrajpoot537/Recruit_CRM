@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Recruit CRM</title>
     <meta name="description" content="A modern Recruiting CRM for your Business by AdamSon's." />
 
@@ -22,19 +23,17 @@
         type="text/css" />
     <link href="{{ asset('vendors/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet"
         type="text/css" />
-<!-- Select2 CSS -->
+    <!-- Select2 CSS -->
     <link href="{{ asset('vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- CSS -->
     <link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css">
     {{-- sweetalert --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    	<!-- Select2 JS -->
-    <script src="{{ asset('vendors/select2/dist/js/select2.full.min.js') }}"></script>
 
     <!-- Include Tagify CSS and JS -->
-<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.min.js"></script>
 
 
 </head>
@@ -456,8 +455,10 @@
             <div class="menu-header">
                 <span>
                     <a class="navbar-brand" href="index.html">
-                        <img class="brand-img img-fluid mb-2" src="{{asset('dist/img/brand-sm.svg')}}" alt="brand" />
-                        <label for="" style="margin-top:2%;margin-left: 5%;font-weight: 999;font-size:25px">Recruit
+                        <img class="brand-img img-fluid mb-2" src="{{ asset('dist/img/brand-sm.svg') }}"
+                            alt="brand" />
+                        <label for=""
+                            style="margin-top:2%;margin-left: 5%;font-weight: 999;font-size:25px">Recruit
                             CRM</label>
                         <!-- <img class="brand-img img-fluid" src="dist/img/Jampack.svg" alt="brand" /> -->
                     </a>
@@ -736,7 +737,7 @@
                                     <li class="nav-item">
                                         <ul class="nav flex-column">
                                             <li class="nav-item">
-                                                <a class="nav-link" href="contact.html"><span
+                                                <a class="nav-link" href="{{ route('contact.index') }}"><span
                                                         class="nav-link-text">Contact List</span></a>
                                             </li>
                                             <li class="nav-item">
@@ -1456,9 +1457,19 @@
     <script src="{{ asset('dist/js/chips-init.js') }}"></script>
     <script src="{{ asset('dist/js/dashboard-data.js') }}"></script>
 
-    	<!-- Tinymce JS -->
+    <!-- Tinymce JS -->
     <script src="{{ asset('vendors/tinymce/tinymce.min.js') }}"></script>
-	<script src="{{ asset('dist/js/tinymce-data.js') }}"></script>
+    <script src="{{ asset('dist/js/tinymce-data.js') }}"></script>
+    <!-- Select2 JS -->
+    <script src="{{ asset('vendors/select2/dist/js/select2.full.min.js') }}"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+            $(".select2").select2();
+        });
+    </script>
 
 
 </body>

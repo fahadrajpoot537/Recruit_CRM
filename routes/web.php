@@ -8,9 +8,11 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyUserController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CvUploadController;
 use App\Http\Controllers\ResumeParserController;
+use App\Models\Contact;
 use App\Models\User;
 
 Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('google.login');
@@ -39,6 +41,20 @@ Route::get('auth/google/callback', [SocialAuthController::class, 'handleGoogleCa
 
 Route::get('/', function () {
     return view('auth.login');
+});
+
+// CSRF token refresh route
+Route::get('/csrf-token', function () {
+    return response()->json(['token' => csrf_token()]);
+});
+
+// Test route to check session and CSRF
+Route::get('/test-session', function () {
+    return response()->json([
+        'session_id' => session()->getId(),
+        'csrf_token' => csrf_token(),
+        'user_authenticated' => auth()->check()
+    ]);
 });
 
 Route::get('/dashboard', function () {
@@ -107,6 +123,21 @@ Route::middleware('auth')->group(function () {
     Route::prefix('jobs')->controller(JobController::class)->group(function () {
         Route::get('/', 'index')->name('jobs.index');
         Route::get('/create', 'create')->name('jobs.create');
+        Route::post('/', 'store')->name('jobs.store');
+        Route::get('/{id}/edit', 'edit')->name('jobs.edit');
+        Route::put('/{id}', 'update')->name('jobs.update');
+        Route::delete('/{id}', 'destroy')->name('jobs.destroy');
+        Route::post('/bulk-delete', 'bulkDestroy')->name('jobs.bulk-destroy');
+    });
+    //cont controller
+    Route::prefix('contact')->controller(ContactController::class)->group(function () {
+        Route::get('/', 'index')->name('contact.index');
+        Route::get('/create', 'create')->name('contact.create');
+        Route::post('/', 'store')->name('contact.store');
+        Route::get('/edit/{id}', 'edit')->name('contact.edit');
+        Route::put('/{id}', 'update')->name('contact.update');
+        Route::delete('/{id}', 'destroy')->name('contact.destroy');
+        Route::get('/get-contacts-by-company', 'getContactsByCompany')->name('contact.getContactsByCompany');
     });
 });
 Route::middleware(['auth', 'role:super-admin'])->group(function () {

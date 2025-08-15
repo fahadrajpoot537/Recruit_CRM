@@ -9,17 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use Spatie\Permission\Models\Role;
+
 
 class CompanyUserController extends Controller
 {
-    //index
-    public function index(CompanyEmployee $companyEmployee)
-    {
-        $id = $request->id;
-        $company_users = CompanyEmployee::where('company_id', $id)->get();
-        dd($company_users);
-        return view('company_user.index', compact('company_users'));
-    }
+
     //create
     public function create(Request $request)
     {
@@ -49,7 +44,7 @@ class CompanyUserController extends Controller
                 'email'    => $request->email,
                 'password' => Hash::make($request->password),
             ]);
-// dd($user);
+            // dd($user);
             // Assign role
             $user->assignRole($request->role);
 
@@ -74,71 +69,72 @@ class CompanyUserController extends Controller
     }
 
     //edit
+
     public function edit(Request $request)
     {
-
         $id = $request->id;
         $user = User::with('companies')->findOrFail(auth()->user()->id);
         $companies = $user->companies;
-        $company_user = CompanyEmployee::with('user.role')->findOrFail($id);
-        // dd($company_user->user->name);
-        return view('company_user.edit', compact('company_user', 'companies'));
+        $company_user = CompanyEmployee::with('user.roles')->findOrFail($id);
+
+        $roles = Role::all();  // Get all roles
+
+        return view('company_user.edit', compact('company_user', 'companies', 'roles'));
     }
 
     //update
-   public function update(Request $request, $id)
-{
-    $company_user = CompanyEmployee::findOrFail($id);
-    $user = $company_user->user;
+    public function update(Request $request, $id)
+    {
+        $company_user = CompanyEmployee::findOrFail($id);
+        $user = $company_user->user;
 
-    // Validate with the actual user ID for unique email exception
-    $request->validate([
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email,' . $user->id,
-        'role' => 'required',
-        'company_id' => 'required',
-    ]);
+        // Validate with the actual user ID for unique email exception
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'role' => 'required',
+            'company_id' => 'required',
+        ]);
 
-    $company_user->update([
-        'company_id' => $request->company_id,
-    ]);
+        $company_user->update([
+            'company_id' => $request->company_id,
+        ]);
 
-    $user->update([
-        'name' => $request->name,
-        'email' => $request->email,
-    ]);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
 
-    $user->syncRoles([$request->role]);
+        $user->syncRoles([$request->role]);
 
-    return redirect()
-        ->route('companies.show', $request->company_id)
-        ->with('success', 'Company Employee updated successfully!');
-}
-//delete
-public function destroy(Request $request, $id)
-{
-    // dd($id);
-
-    $company_user = CompanyEmployee::find($id);
-    if (!$company_user) {
-
-        return redirect()->back()
-            ->with('error', 'Company Employee not found!');
+        return redirect()
+            ->route('companies.show', $request->company_id)
+            ->with('success', 'Company Employee updated successfully!');
     }
-    $company_user->delete();
+    //delete
+    public function destroy(Request $request, $id)
+    {
+        // dd($id);
 
-    return redirect()
-        ->route('companies.show', $company_user->company_id)
-        ->with('success', 'Company Employee deleted successfully!');
-}
-public function updateStatus($id)
-{
-    $companyUser = CompanyEmployee::findOrFail($id);
-    $user = $companyUser->user;
-    $user->status = !$user->status;
-    $user->save();
+        $company_user = CompanyEmployee::find($id);
+        if (!$company_user) {
 
-    return redirect()->back()->with('success', 'User status updated successfully.');
-}
+            return redirect()->back()
+                ->with('error', 'Company Employee not found!');
+        }
+        $company_user->delete();
 
+        return redirect()
+            ->route('companies.show', $company_user->company_id)
+            ->with('success', 'Company Employee deleted successfully!');
+    }
+    public function updateStatus($id)
+    {
+        $companyUser = CompanyEmployee::findOrFail($id);
+        $user = $companyUser->user;
+        $user->status = !$user->status;
+        $user->save();
+
+        return redirect()->back()->with('success', 'User status updated successfully.');
+    }
 }
