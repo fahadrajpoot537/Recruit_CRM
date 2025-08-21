@@ -16,10 +16,10 @@
                     <div class="card-body p-4">
                         <div class="row row-cols-1 row-cols-md-2 gy-4">
 
-                        <div><strong>📞 Contact:</strong> <span class="ms-2">{{ $company->contact ?? 'N/A' }}</span>
-                        </div>
-                        <div><strong>✉️ Type:</strong> <span class="ms-2">{{ $company->type ?? 'N/A' }}</span></div>
-                        <div><strong>✉️ Email:</strong> <span class="ms-2">{{ $company->email ?? 'N/A' }}</span></div>
+                            <div><strong>📞 Contact:</strong> <span class="ms-2">{{ $company->contact ?? 'N/A' }}</span>
+                            </div>
+                            <div><strong>✉️ Type:</strong> <span class="ms-2">{{ $company->type ?? 'N/A' }}</span></div>
+                            <div><strong>✉️ Email:</strong> <span class="ms-2">{{ $company->email ?? 'N/A' }}</span></div>
 
                             <div><strong>🏷️ Postal Code:</strong> <span
                                     class="ms-2">{{ $company->postal_code ?? 'N/A' }}</span></div>
@@ -109,75 +109,7 @@
                                     class="btn btn-primary me-2">
                                     Add Company User
                                 </a>
-                                {{-- <div class="collapse" id="collapseQuick">
-                                    <div class="quick-access-form-wrap">
-                                        <form class="quick-access-form border">
-                                            <div class="row gx-3">
-                                                <div class="col-xxl-10">
-                                                    <div class="position-relative">
-                                                        <div class="dropify-square">
-                                                            <input type="file" class="dropify-1" />
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="row gx-3">
-                                                                <div class="col-lg-4">
-                                                                    <div class="form-group">
-                                                                        <input class="form-control"
-                                                                            placeholder="First name*" value=""
-                                                                            type="text">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" placeholder="Last name*"
-                                                                            value="" type="text">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-4">
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" placeholder="Email Id*"
-                                                                            value="" type="text">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" placeholder="Phone"
-                                                                            value="" type="text">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-4">
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" placeholder="Department"
-                                                                            value="" type="text">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <select id="input_tags" class="form-control"
-                                                                            multiple="multiple">
-                                                                            <option selected="selected">Collaborator
-                                                                            </option>
-                                                                            <option>Designer</option>
-                                                                            <option selected="selected">Developer</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xxl-2">
-                                                    <div class="form-group">
-                                                        <button data-bs-toggle="collapse" data-bs-target="#collapseExample"
-                                                            aria-expanded="false" class="btn btn-block btn-primary ">Create
-                                                            New
-                                                        </button>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button data-bs-toggle="collapse" disabled
-                                                            data-bs-target="#collapseExample" aria-expanded="false"
-                                                            class="btn btn-block btn-secondary">Discard
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div> --}}
+
                                 <div class="contact-list-view">
                                     <table id="datable_1" class="table nowrap w-100 mb-5">
                                         <thead>
@@ -209,13 +141,13 @@
                                                     <td class="text-truncate">{{ $company_user->user->email }}</td>
 
                                                     <td>
-                                                       @if ($company_user->user->roles->isNotEmpty())
-    <span class="badge badge-soft-violet my-1 me-2">
-        {{ $company_user->user->roles->first()->name }}
-    </span>
-@else
-    <span class="badge badge-soft-violet my-1 me-2">No Role</span>
-@endif
+                                                        @if ($company_user->user->roles->isNotEmpty())
+                                                            <span class="badge badge-soft-violet my-1 me-2">
+                                                                {{ $company_user->user->roles->first()->name }}
+                                                            </span>
+                                                        @else
+                                                            <span class="badge badge-soft-violet my-1 me-2">No Role</span>
+                                                        @endif
 
                                                     </td>
                                                     <td>

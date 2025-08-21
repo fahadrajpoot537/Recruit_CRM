@@ -17,7 +17,7 @@
             <h2 class="fw-bold text-primary">Company Users</h2>
             @role('Recruiter Company')
                 <a href="{{ route('companies.create') }}" class="btn btn-outline-primary">
-                    <i class="bi bi-plus-circle me-1"></i> Add Company User                </a>
+                    <i class="bi bi-plus-circle me-1"></i> Add Company User </a>
             @endrole
         </div>
 

@@ -96,4 +96,14 @@ class Job extends Model
     {
         return $this->belongsTo(Contact::class, 'primary_contact_id');
     }
+    //secondary contacts
+    public function secondaryContacts()
+    {
+        return $this->hasMany(JobContact::class, 'job_id');
+    }
+    //notes
+    public function notes()
+    {
+        return $this->hasMany(JobNote::class, 'job_id')->orderBy('created_at', 'desc');
+    }
 }
