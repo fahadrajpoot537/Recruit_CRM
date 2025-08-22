@@ -64,12 +64,11 @@
                                     <label for="role" class="form-label">Role</label>
                                     <select class="form-select shadow-sm @error('role') is-invalid @enderror" name="role"
                                         id="role">
-                                        <option value="recruiter"
-                                            {{ $company_user->user->hasRole('recruiter') ? 'selected' : '' }}>Recruiter
-                                        </option>
-                                        <option value="employer"
-                                            {{ $company_user->user->hasRole('employer') ? 'selected' : '' }}>Employer
-                                        </option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->name }}"
+                                                {{ $company_user->role == $role->name ? 'selected' : '' }}>
+                                                {{ $role->name }}</option>
+                                        @endforeach
 
                                     </select>
                                     @error('role')

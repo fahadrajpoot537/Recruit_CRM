@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\CompanyEmployee;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
@@ -12,49 +13,63 @@ class CompanyController extends Controller
     // Show create form (only for Recruiter)
     public function addcompany()
     {
-        return view('company.add');
+        $creators = User::role('Recruiter Company')->get();
+        return view('company.add', compact('creators'));
     }
 
     // Store new company
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'nullable|email',
-            'contact' => 'nullable|string',
-            'postal_code' => 'nullable|string',
-            'address' => 'nullable|string',
-            'city' => 'nullable|string',
-            'state' => 'nullable|string',
-            'country' => 'nullable|string',
-            'contractpname' => 'nullable|string',
-            'company_description' => 'nullable|string',
-            'head_office' => 'nullable|string',
-            'no_of_employes' => 'nullable|string',
-            'no_of_offices' => 'nullable|string',
-            'industry' => 'nullable|string',
-            'facebook' => 'nullable|string',
-            'linkedln' => 'nullable|string',
-            'instagram' => 'nullable|string',
-            'twitter' => 'nullable|string',
-            'type' => 'required|in:resources,recruiter',
-        ]);
+  public function store(Request $request)
+{
+    $validationRules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:companies,email',
+        'contact' => 'required|string|max:255',
+        'registration_number' => 'required|string|max:255',
+        'postal_code' => 'nullable|string|max:20',
+        'address' => 'nullable|string|max:500',
+        'city' => 'nullable|string|max:255',
+        'state' => 'nullable|string|max:255',
+        'country' => 'nullable|string|max:255',
+        'contractpname' => 'nullable|string|max:255',
+        'company_description' => 'nullable|string|max:1000',
+        'head_office' => 'nullable|string|max:255',
+        'no_of_employes' => 'nullable|string|max:50',
+        'no_of_offices' => 'nullable|string|max:50',
+        'industry' => 'nullable|string|max:255',
+        'facebook' => 'nullable|url|max:255',
+        'linkedln' => 'nullable|url|max:255',
+        'instagram' => 'nullable|url|max:255',
+        'website' => 'nullable|url|max:255',
+        'type' => 'required|in:resources,recruiter',
+    ];
 
-        $company = Company::create($request->only([
-            'name', 'contact', 'email', 'postal_code', 'address', 'city', 'state', 'country',
-            'contractpname', 'company_description', 'head_office', 'no_of_employes',
-            'no_of_offices', 'industry', 'facebook', 'linkedln', 'instagram', 'twitter', 'type',
-        ]));
-
-        $company->creators()->attach(Auth::id());
-
-        return redirect()->route('companies.index')->with('success', 'Company created successfully!');
+    if (Auth::user()->role == 'super-admin') {
+        $validationRules['company_user_id'] = 'required|exists:users,id';
     }
+
+    $validated = $request->validate($validationRules);
+
+    $company = Company::create($validated);
+
+    if (Auth::user()->role == 'super-admin') {
+        $company->creators()->attach($validated['company_user_id']);
+    } else {
+        $company->creators()->attach(Auth::id());
+    }
+
+    return redirect()->route('companies.index')->with('success', 'Company created successfully!');
+}
 
     // Show all companies created by auth user
     public function index()
     {
-        $companies = Auth::user()->createdCompanies()->latest()->get();
+        $user=Auth::user();
+        if ($user->hasRole('super-admin')) {
+            $companies = Company::latest()->get();
+        } else {
+            $companies = Auth::user()->createdCompanies()->latest()->get();
+        }
+
 
         return view('company.index', compact('companies'));
     }
@@ -65,7 +80,7 @@ class CompanyController extends Controller
         if (!$company->creators->contains(Auth::id())) {
             abort(403, 'Unauthorized');
         }
-     $company_users = $company->company_users()->with('user')->get();
+        $company_users = $company->company_users()->with('user')->get();
         return view('company.show', compact('company', 'company_users'));
     }
 
@@ -109,5 +124,4 @@ class CompanyController extends Controller
 
         return redirect()->route('companies.index')->with('success', 'Company updated successfully!');
     }
-
 }

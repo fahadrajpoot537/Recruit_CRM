@@ -89,7 +89,7 @@
 
 
                     <!-- Right Side (Action Icons) -->
-                    <div class="d-flex align-items-center mt-3 mt-md-0">
+                    {{-- <div class="d-flex align-items-center mt-3 mt-md-0">
                         <button class="btn btn-icon btn-light rounded-circle me-2">
                             <i class="bi bi-stars"></i>
                         </button>
@@ -102,7 +102,7 @@
                         <button class="btn btn-icon btn-light rounded-circle">
                             <i class="bi bi-three-dots"></i>
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
 
 
@@ -225,7 +225,7 @@
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link " data-bs-toggle="tab" href="#job_tasks" aria-controls="job_tasks"
-                                 role="tab">
+                                role="tab">
                                 <span class="nav-icon-wrap">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list"
                                         width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
@@ -257,10 +257,11 @@
             </div>
         </div>
     </div>
-     @include('jobs.modal', ['job' => $job])
+
+
     <div id="sideModal_note" class="side-modal">
         <div class="side-modal-content">
-            <div class="side-modal-header">
+            <div class="side-modal-header editNote">
                 <h5>Note</h5>
                 <button type="button" class="btn-close" id="closeSideModalNote"></button>
             </div>
@@ -308,6 +309,7 @@
             </div>
         </div>
     </div>
+
     <script>
         async function showNote(jobId) {
             try { // Open modal
@@ -363,9 +365,6 @@
                     }
                 });
 
-
-                // Handle collaborators (multi-select)
-                // Handle collaborators (multi-select)
                 if (data.collaborators && Array.isArray(data.collaborators)) {
                     const collaboratorSelect = form.querySelector('[name="collaborator[]"]');
                     if (collaboratorSelect) {
@@ -386,7 +385,7 @@
 
                 // Set edit mode
                 form.setAttribute('data-edit-id', noteId);
-                document.querySelector('.side-modal-header h5').textContent = 'Edit Note';
+                document.querySelector('.editNote').textContent = 'Edit Note';
 
                 // Open modal first
                 document.getElementById('sideModal_note').classList.add('show');
@@ -397,16 +396,20 @@
                 Swal.fire('Error', 'Failed to load job details', 'error');
             }
         }
+        document.getElementById('closeSideModalNote').addEventListener('click', function() {
+            document.getElementById('sideModal_note').classList.remove('show');
+        });
     </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const form = document.getElementById("noteForm");
             const modal = document.getElementById("sideModal_note");
-            const closeBtn = document.getElementById("closeSideModalNote");
+            const closeBtn = document.getElementById("close_candidateNote");
 
             // Close modal
             closeBtn.addEventListener("click", function() {
+
                 modal.classList.remove("show");
             });
 
@@ -472,4 +475,5 @@
             });
         });
     </script>
+    @include('jobs.modal', ['job' => $job])
 @endsection

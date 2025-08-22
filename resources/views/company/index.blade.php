@@ -15,11 +15,11 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold text-primary">My Companies</h2>
-        @role('Recruiter Company')
+
         <a href="{{ route('companies.create') }}" class="btn btn-outline-primary">
             <i class="bi bi-plus-circle me-1"></i> Add Company
         </a>
-        @endrole
+
     </div>
 
     @if(session('success'))

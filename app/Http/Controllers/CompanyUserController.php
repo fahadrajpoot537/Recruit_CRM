@@ -19,9 +19,12 @@ class CompanyUserController extends Controller
     public function create(Request $request)
     {
         $id = $request->id;
+
+        $roles = Role::whereNotIn('name', ['super-admin', 'Recruiter Company'])->get();
+
         $company = Company::findOrFail($id);
         // dd($company);
-        return view('company_user.add', compact('company'));
+        return view('company_user.add', compact('company', 'roles'));
     }
     //store
 
@@ -77,7 +80,7 @@ class CompanyUserController extends Controller
         $companies = $user->companies;
         $company_user = CompanyEmployee::with('user.roles')->findOrFail($id);
 
-        $roles = Role::all();  // Get all roles
+        $roles = Role::whereNotIn('name', ['super-admin', 'Recruiter Company'])->get();  // Get all roles
 
         return view('company_user.edit', compact('company_user', 'companies', 'roles'));
     }

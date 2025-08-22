@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     //index
-   protected $fillable = [
+    protected $fillable = [
         // Basic Job Information
         'job_title',
         'no_of_openings',
@@ -55,8 +55,8 @@ class Job extends Model
         'created_by',
         'primary_contact_id',
     ];
-   protected $table = 'crm_jobs';
-//company
+    protected $table = 'crm_jobs';
+    //company
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id');
