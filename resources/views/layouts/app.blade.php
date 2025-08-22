@@ -237,13 +237,13 @@
                                     </div>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a>
-                                    @role('Recruiter Company')
+                                    @if (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('Recruiter Company'))
                                         <a class="dropdown-item" href="{{ route('companies.index') }}">Manage Company
                                             Details</a>
-                                    @endrole
-
+                                    @endif
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ route('term.conditions') }}">Terms & Conditions</a>
+                                    <a class="dropdown-item" href="{{ route('term.conditions') }}">Terms &
+                                        Conditions</a>
                                     <a class="dropdown-item" href="#">Help & Support</a>
                                 </div>
                             </div>
@@ -441,8 +441,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse"
-                                    data-bs-target="#dash_contact">
+                                <a class="nav-link" href="{{ route('contact.index') }}">
                                     <span class="nav-icon-wrap">
                                         <span class="svg-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -460,30 +459,12 @@
                                     </span>
                                     <span class="nav-link-text">Contact</span>
                                 </a>
-                                <ul id="dash_contact" class="nav flex-column collapse  nav-children">
-                                    <li class="nav-item">
-                                        <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="{{ route('contact.index') }}"><span
-                                                        class="nav-link-text">Contact List</span></a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="contact-cards.html"><span
-                                                        class="nav-link-text">Contact Cards</span></a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="edit-contact.html"><span
-                                                        class="nav-link-text">Edit Contact</span></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
                             </li>
-                         
+
                         </ul>
                     </div>
                     <div class="menu-gap"></div>
-                    
+
 
                 </div>
             </div>
@@ -554,8 +535,7 @@
                                             class="icon"><span class="feather-icon"><i
                                                     data-feather="eye"></i></span></span><span class="btn-text">Just
                                             browsing</span></span></button>
-                                <button
-                                    class="btn btn-soft-danger text-nonecase btn-rounded start-conversation"><span><span
+                                <button class="btn btn-soft-danger text-nonecase btn-rounded start-conversation"><span><span
                                             class="icon"><span class="feather-icon"><i
                                                     data-feather="credit-card"></i></span></span><span
                                             class="btn-text">I have a question regarding pricing</span></span></button>

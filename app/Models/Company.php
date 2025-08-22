@@ -11,6 +11,7 @@ class Company extends Model
         'name',
         'contact',
         'email',
+        'registration_number',
         'postal_code',
         'address',
         'city',
@@ -25,7 +26,7 @@ class Company extends Model
         'facebook',
         'linkedln',
         'instagram',
-        'twitter',
+        'website',
         'type',
     ];
 

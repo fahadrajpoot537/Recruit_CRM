@@ -12,11 +12,18 @@ use Illuminate\Support\Facades\Auth;
 class JobController extends Controller
 {
     //index
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $jobs = Job::with(['company', 'targetCompany', 'owner', 'createdBy', 'questions', 'contacts', 'collaborators','primaryContact'])->get();
-
+            $id = $request->input('id');
+            if ($id) {
+                $jobs = Job::with(['company', 'targetCompany', 'owner', 'createdBy', 'questions', 'contacts', 'collaborators', 'primaryContact'])->find($id);
+                return response()->json(
+                    ['jobs' => $jobs]
+                );
+            } else {
+                $jobs = Job::with(['company', 'targetCompany', 'owner', 'createdBy', 'questions', 'contacts', 'collaborators', 'primaryContact'])->get();
+            }
             // Prepare datasets required to render the create form on the index page
             $user = Auth::user();
             if (!$user) {
@@ -43,9 +50,6 @@ class JobController extends Controller
 
             return view('jobs.index', compact('jobs', 'companies', 'target_companies', 'users'));
         } catch (\Exception $e) {
-            // Log the error for debugging
-            // \Log::error('Error in jobs index: ' . $e->getMessage());
-            dd($e->getMessage());
 
             // Return a view with error message or redirect with error
             return back()->with('error', 'An error occurred while loading the page.');
@@ -101,8 +105,7 @@ class JobController extends Controller
     {
         try {
             $user = Auth::user();
-            // $data = $request->all();
-            // dd($data);
+
             $data = $request->validate([
                 'job_title' => 'required',
                 'no_of_openings' => 'required',
@@ -127,7 +130,7 @@ class JobController extends Controller
                 'postal_code' => 'required',
                 'full_address' => 'required',
                 // 'owner_id' => 'required',
-                'collaborator' => 'nullable|array',
+                'job_collaborator' => 'nullable|array',
                 'note_for_candidates' => 'nullable',
                 'questions' => 'nullable|array',
                 'attachments' => 'nullable',
@@ -148,10 +151,10 @@ class JobController extends Controller
             }
             $data['created_by'] = auth()->user()->id;
             $job = Job::create($data);
-            if (!empty($data['collaborator'])) {
+            if (!empty($data['job_collaborator'])) {
                 $collaboratorsData = array_map(function ($id) {
                     return ['user_id' => $id];
-                }, $data['collaborator']);
+                }, $data['job_collaborator']);
                 //   dd($collaboratorsData);
                 $job->collaborators()->createMany($collaboratorsData);
             }
@@ -181,30 +184,21 @@ class JobController extends Controller
 
             return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
         } catch (\Exception $e) {
-            // Log the error for debugging
-            // \Log::error('Error in jobs index: ' . $e->getMessage());
-            dd($e->getMessage());
 
             // Return a view with error message or redirect with error
-            return back()->with('error', 'An error occurred while loading the page.');
+            return back()->with('error', 'An error occurred while loading the page. ' . $e->getMessage());
         }
     }
 
     public function edit($id)
     {
         try {
-            $job = Job::with([
-                'company',
-                'targetCompany',
-                'contacts',
-                'questions' // Eager load the questions relationship
-            ])->findOrFail($id);
-            // dd($job->questions);
+            $job = Job::findOrFail($id);
             return response()->json([
                 'job' => $job,
-                'collaborators' => $job->collaborators->pluck('user_id'),
+                'collaborator_ids' => $job->collaborators->pluck('user_id'),
                 'contacts' => $job->contacts->pluck('contact_id'),
-                'questions' => $job->questions->pluck('question') // Extract just the question texts
+                'questions' => $job->questions->pluck('question')
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Job not found'], 404);
@@ -214,10 +208,7 @@ class JobController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // \Log::info('Update request received for job ID: ' . $id);
-            // \Log::info('Request method: ' . $request->method());
-            // \Log::info('Request data: ' . json_encode($request->all()));
-
+      
             $user = Auth::user();
             $job = Job::findOrFail($id);
 
@@ -286,8 +277,15 @@ class JobController extends Controller
 
                 $job->questions()->createMany($questionsData);
             }
+            //secondary_contacts
+            if (!empty($data['secondary_contacts'])) {
+                $contactsData = array_map(function ($contact_id) {
+                    return ['contact_id' => $contact_id];
+                }, $data['secondary_contacts']);
+                $job->contacts()->createMany($contactsData);
+            }
+            // For AJAX requests, return JSON so the page doesn't reload
             // For AJAX requests, return JSON
-
             $job->load(['company', 'targetCompany', 'owner', 'createdBy', 'collaborators', 'questions']);
             return response()->json([
                 'message' => 'Job updated successfully.',
@@ -333,7 +331,25 @@ class JobController extends Controller
             return back()->with('error', 'An error occurred while deleting the job.');
         }
     }
+    //job details
+    public function details($id)
+    {
+        try {
+            // \Log::info('Delete request received for job ID: ' . $id);
 
+            $job = Job::with(['company', 'targetCompany', 'owner', 'createdBy', 'collaborators', 'questions', 'contacts', 'primaryContact', 'secondaryContacts', 'notes'])->findOrFail($id);
+            // dd($job);
+            return view('jobs.show', compact('job'));
+        } catch (\Exception $e) {
+            // \Log::error('Error deleting job ID ' . $id . ': ' . $e->getMessage());
+
+            if (request()->ajax()) {
+                return response()->json(['error' => 'Failed to delete job: ' . $e->getMessage()], 500);
+            }
+
+            return back()->with('error', 'An error occurred while deleting the job.');
+        }
+    }
     public function bulkDestroy(Request $request)
     {
         try {
@@ -357,7 +373,7 @@ class JobController extends Controller
                 }
             }
 
-            \Log::info("Bulk delete completed. Deleted {$deletedCount} jobs: " . implode(', ', $deletedTitles));
+            // \Log::info("Bulk delete completed. Deleted {$deletedCount} jobs: " . implode(', ', $deletedTitles));
 
             // For AJAX requests, return JSON
             if ($request->ajax()) {
@@ -370,7 +386,7 @@ class JobController extends Controller
 
             return redirect()->route('jobs.index')->with('success', "Successfully deleted {$deletedCount} job(s).");
         } catch (\Exception $e) {
-            \Log::error('Error in bulk delete: ' . $e->getMessage());
+            // \Log::error('Error in bulk delete: ' . $e->getMessage());
 
             if ($request->ajax()) {
                 return response()->json(['error' => 'Failed to delete jobs: ' . $e->getMessage()], 500);

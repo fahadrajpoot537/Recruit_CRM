@@ -39,6 +39,7 @@ return new class extends Migration
             // Education Requirements
             $table->string('educational_qualification')->nullable();
             $table->string('educational_specialization')->nullable();
+            $table->string('skills')->nullable();
 
             // Location Information
             $table->string('locality')->nullable();
@@ -59,6 +60,8 @@ return new class extends Migration
             $table->string('status')->default('Open');
             $table->timestamp('published_at')->nullable();
             $table->foreignId('created_by')->constrained('users');
+            $table->unsignedBigInteger('primary_contact_id')->nullable();
+            $table->foreign('primary_contact_id')->references('id')->on('contacts');
             $table->timestamps();
             $table->softDeletes();
         });

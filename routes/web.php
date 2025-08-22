@@ -11,6 +11,7 @@ use App\Http\Controllers\CompanyUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CvUploadController;
+use App\Http\Controllers\JobNoteController;
 use App\Http\Controllers\ResumeParserController;
 use App\Models\Contact;
 use App\Models\User;
@@ -153,6 +154,14 @@ Route::middleware('auth')->group(function () {
         Route::put('/{id}', 'update')->name('jobs.update');
         Route::delete('/{id}', 'destroy')->name('jobs.destroy');
         Route::post('/bulk-delete', 'bulkDestroy')->name('jobs.bulk-destroy');
+        Route::get('/details/{id}', 'details')->name('jobs.details');
+    });
+    Route::prefix('jobs/notes')->controller(JobNoteController::class)->group(function () {
+        Route::get('/{id}', 'index')->name('job_notes.index');
+        Route::post('/', 'store')->name('job_notes.store');
+        Route::get('/{id}/edit', 'edit')->name('job_notes.edit');
+        Route::put('/{id}', 'update')->name('job_notes.update');
+        Route::delete('/{id}', 'destroy')->name('job_notes.destroy');
     });
     //cont controller
     Route::prefix('contact')->controller(ContactController::class)->group(function () {

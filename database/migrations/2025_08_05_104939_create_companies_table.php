@@ -30,7 +30,7 @@ return new class extends Migration
         $table->string('facebook')->nullable();
         $table->string('linkedln')->nullable();
         $table->string('instagram')->nullable();
-        $table->string('twitter')->nullable();
+        $table->string('website')->nullable();
         $table->tinyInteger('status')->default(0);
         $table->timestamps();
     });
